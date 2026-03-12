@@ -414,8 +414,8 @@ audio.src = music
 
 }
 
-loadTemplate()
-
+window.onload = loadTemplate
+		
         function typeWriter() {
             if (lineIndex < poemLines.length) {
                 const line = poemLines[lineIndex];
@@ -573,5 +573,6 @@ loadTemplate()
     </script>
 
 </body>
+
 
 </html>
