@@ -332,7 +332,7 @@
 
     <div class="envelope" id="envelope">
         <div class="flap"></div>
-        <div class="seal" id="seal" onclick="openLetter()"></div>
+        <div class="seal" id="seal"></div>
     </div>
 
     <div class="letter-wrapper">
@@ -369,10 +369,13 @@
         let lineIndex = 0;   // which line we are typing
         let charIndex = 0;   // which character in the line
 
+	window.onload = loadTemplate
+		
 	function loadTemplate(){
 
 const params = new URLSearchParams(window.location.search)
 
+document.getElementById("seal").addEventListener("click", openLetter)
 const heading = params.get("heading") || "A Letter For You"
 const recipient = params.get("recipient") || ""
 const sender = params.get("sender") || ""
@@ -413,8 +416,6 @@ audio.src = music
 }
 
 }
-
-window.onload = loadTemplate
 		
         function typeWriter() {
             if (lineIndex < poemLines.length) {
@@ -576,3 +577,4 @@ window.onload = loadTemplate
 
 
 </html>
+
