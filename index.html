@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>For You</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@300;400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f3d2e;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* envelope */
+
+        .envelope {
+            width: 420px;
+            height: 260px;
+            background: #efe6d7;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid #d4c7b3;
+            overflow: visible;
+        }
+
+        /* candleglow */
+
+        .candle-glow {
+
+            position: fixed;
+            top: 50%;
+            left: 50%;
+
+            width: 700px;
+            height: 700px;
+
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+
+            background: radial-gradient(circle,
+                    rgba(255, 220, 150, 0.35) 0%,
+                    rgba(255, 200, 120, 0.2) 30%,
+                    rgba(0, 0, 0, 0) 70%);
+
+            opacity: 0;
+
+            animation: flicker 6s infinite alternate;
+
+            transition: opacity 1.5s ease;
+
+        }
+
+        /* CandleLight flicker */
+
+        @keyframes flicker {
+
+            0% {
+                filter: brightness(1);
+            }
+
+            50% {
+                filter: brightness(1.05);
+            }
+
+            100% {
+                filter: brightness(.95);
+            }
+
+        }
+
+        /* Letter SlideBack */
+
+        @keyframes slideBack {
+
+            from {
+                transform: translateY(0) rotate(-1deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(300px) rotate(-1deg);
+                opacity: 0;
+            }
+
+        }
+
+        /* flap */
+
+        .flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #e6dccb;
+            clip-path: polygon(0 0, 100% 0, 50% 60%);
+            transform-origin: top;
+            transition: transform 1s ease;
+        }
+
+        /* wax seal */
+
+        .seal {
+            width: 70px;
+            height: 70px;
+            background: #7b1e2b;
+            border-radius: 50%;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            opacity: 1;
+            transition: opacity 0, 6s ease;
+        }
+
+        .seal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .seal::after {
+
+            content: "";
+            position: absolute;
+            top: -30%;
+            left: -30%;
+
+            width: 60%;
+            height: 160%;
+
+            background: linear-gradient(120deg,
+                    transparent,
+                    rgba(255, 255, 255, .5),
+                    transparent);
+
+            transform: rotate(25deg);
+            opacity: 0;
+            transition: .6s;
+
+        }
+
+        .seal:hover::after {
+            opacity: 1;
+            left: 120%;
+        }
+
+        /* seal cracking */
+
+        .crack {
+            animation: crack 0.5s forwards;
+        }
+
+        @keyframes crack {
+            0% {
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateX(-50%) scale(1.15);
+            }
+
+            100% {
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* open flap */
+
+        .open .flap {
+            transform: rotateX(180deg);
+        }
+
+        /* letter slide */
+
+        .letter-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .letter-wrapper.active {
+            pointer-events: auto;
+        }
+
+        .letter-title {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            color: #6e1b27;
+            font-weight: 300;
+            font-size: 28px;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .letter {
+            width: 620px;
+            padding: 60px;
+
+            background:
+                linear-gradient(rgba(248, 243, 228, .95), rgba(248, 243, 228, .95)),
+                url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+
+            border: 1px solid #d6c7a8;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.5),
+                inset 0 0 40px rgba(120, 90, 50, .25);
+            border-radius: 3px;
+
+            transform: translateY(300px) rotate(-1deg);
+            opacity: 0;
+        }
+
+        /* sliding animation */
+
+        .show-letter {
+            animation: slideLetter 1.2s forwards;
+        }
+
+        @keyframes slideLetter {
+            from {
+                transform: translateY(300px) rotate(-1deg);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) rotate(-1deg);
+                opacity: 1;
+            }
+        }
+
+        /* poem */
+
+        .poem {
+            font-family: 'Great Vibes', cursive;
+            font-size: 34px;
+            color: #6e1b27;
+            line-height: 1.7;
+            text-align: center;
+            min-height: 220px;
+        }
+
+        .poem .last {
+            font-size: 48px;
+            /* slightly larger */
+            color: #6e1b27;
+        }
+
+        /* gallery */
+
+        .gallery {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .gallery img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.07);
+        }
+
+        /* close button */
+
+        .close-btn {
+            margin-top: 40px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px 26px;
+            border: none;
+            background: #7b1e2b;
+            color: white;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* lightbox */
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="candle-glow" id="glow"></div>
+
+    <div class="envelope" id="envelope">
+        <div class="flap"></div>
+        <div class="seal" id="seal" onclick="openLetter()"></div>
+    </div>
+
+    <div class="letter-wrapper">
+
+        <div class="letter" id="letter">
+
+            <h2 class="letter-title" id ="heading"</h2>
+            <div class="poem" id="poem"></div>
+
+            <div class="gallery">
+                <img src="photo1" onclick="openImg(this)">
+                <img src="photo2" onclick="openImg(this)">
+                <img src="photo3" onclick="openImg(this)">
+            </div>
+
+            <audio id="music" loop></audio>
+
+            <button class="close-btn" onclick="closeLetter()">Close</button>
+
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeImg()">
+        <img id="lightbox-img">
+    </div>
+
+    <script>
+
+        let poemLines = [];
+
+        let i = 0
+
+        const poemContainer = document.getElementById("poem");
+        let lineIndex = 0;   // which line we are typing
+        let charIndex = 0;   // which character in the line
+
+	function loadTemplate(){
+
+const params = new URLSearchParams(window.location.search)
+
+const heading = params.get("heading") || "A Letter For You"
+const recipient = params.get("recipient") || ""
+const sender = params.get("sender") || ""
+const poem = params.get("poem") || ""
+const music = params.get("music") || ""
+
+const photo1 = params.get("photo1")
+const photo2 = params.get("photo2")
+const photo3 = params.get("photo3")
+
+/* heading */
+
+document.getElementById("heading").innerText = heading + (recipient ? " " + recipient : "")
+
+/* seal letter */
+
+if(sender){
+document.getElementById("seal").innerText = sender[0].toUpperCase()
+}
+
+/* poem */
+
+if(poem){
+poemLines = poem.split("|")
+}
+
+/* photos */
+
+if(photo1) document.getElementById("photo1").src = photo1
+if(photo2) document.getElementById("photo2").src = photo2
+if(photo3) document.getElementById("photo3").src = photo3
+
+/* music */
+
+if(music){
+const audio = document.getElementById("music")
+audio.src = music
+}
+
+}
+
+loadTemplate()
+
+        function typeWriter() {
+            if (lineIndex < poemLines.length) {
+                const line = poemLines[lineIndex];
+
+                if (charIndex < line.length) {
+                    if (lineIndex === poemLines.length - 1) {
+                        // last line “Love.” slower and larger
+                        poemContainer.innerHTML = poemContainer.innerHTML.replace(/<span class="last">.*<\/span>/, "");
+                        poemContainer.innerHTML += `<span class="last">${line.substring(0, charIndex + 1)}</span>`;
+                    } else {
+                        poemContainer.innerHTML += line[charIndex];
+                    }
+
+                    charIndex++;
+                    setTimeout(
+                        typeWriter,
+                        lineIndex === poemLines.length - 1 ? 80 : 18 // slow for last line
+                    );
+                } else {
+                    // line finished, add line break
+                    if (lineIndex !== poemLines.length - 1) poemContainer.innerHTML += "<br>";
+                    lineIndex++;
+                    charIndex = 0;
+                    setTimeout(typeWriter, 40);
+                }
+            }
+        }
+
+        function openLetter() {
+
+            const music = document.getElementById("music")
+            music.volume = 0.6
+            music.currentTime = 0
+            music.play()
+
+            const seal = document.getElementById("seal")
+            const envelope = document.getElementById("envelope")
+            const wrapper = document.querySelector(".letter-wrapper")
+
+            seal.classList.add("crack")
+            envelope.classList.add("open")
+
+            setTimeout(() => {
+
+                const letter = document.getElementById("letter")
+                letter.classList.add("show-letter")
+
+                wrapper.classList.add("active")
+
+                document.getElementById("glow").style.opacity = "1"
+
+                typeWriter()
+
+            }, 700)
+
+        }
+
+        function closeLetter() {
+
+            const music = document.getElementById("music")
+
+            let fade = setInterval(() => {
+
+                if (music.volume > 0.05) {
+                    music.volume -= 0.05
+                } else {
+                    music.pause()
+                    clearInterval(fade)
+                }
+
+            }, 120)
+
+            document.getElementById("glow").style.opacity = "0"
+
+            document.getElementById("seal").classList.add("hidden")
+
+            closeAnimation()
+
+        }
+
+        function closeAnimation() {
+
+            const letter = document.getElementById("letter")
+            const envelope = document.getElementById("envelope")
+            const wrapper = document.querySelector(".letter-wrapper")
+            const seal = document.getElementById("seal")
+
+            letter.style.animation = "slideBack 1s forwards"
+
+            setTimeout(() => {
+
+                wrapper.classList.remove("active")
+
+                envelope.classList.remove("open")
+
+            }, 900)
+
+            setTimeout(() => {
+
+                seal.classList.remove("crack")
+                seal.classList.remove("hidden")
+
+                resetLetter()
+
+            }, 1500)
+
+        }
+
+        function resetLetter() {
+
+            const poem = document.getElementById("poem")
+            const letter = document.getElementById("letter")
+            const wrapper = document.querySelector(".letter-wrapper")
+
+            // Reset counters
+            lineIndex = 0
+            charIndex = 0
+
+            // Clear poem content
+            poem.innerHTML = ""
+            i = 0
+
+            // Reset letter visibility
+            letter.classList.remove("show-letter")
+            letter.style.animation = ""
+            letter.style.transform = "translateY(300px) rotate(-1deg)"
+            letter.style.opacity = "0"
+
+            // Reset wrapper
+            wrapper.classList.remove("active")
+        }
+
+        function openImg(img) {
+
+            document.getElementById("lightbox").style.display = "flex"
+            document.getElementById("lightbox-img").src = img.src
+
+        }
+
+        function closeImg() {
+
+            document.getElementById("lightbox").style.display = "none"
+
+        }
+
+        document.addEventListener("keydown", function (e) {
+
+            if (e.key === "Escape") {
+                closeImg()
+                location.reload()
+            }
+
+        })
+
+    </script>
+
+</body>
+
+</html>
