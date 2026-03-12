@@ -343,12 +343,14 @@
             <div class="poem" id="poem"></div>
 
             <div class="gallery">
-    			<img id="photo1" onclick="openImg(this)">
-    			<img id="photo2" onclick="openImg(this)">
-    			<img id="photo3" onclick="openImg(this)">
+    			<img id="photo1" src="" onclick="openImg(this)">
+				<img id="photo2" src="" onclick="openImg(this)">
+				<img id="photo3" src="" onclick="openImg(this)">
 			</div>
 
-            <audio id="music" loop></audio>
+            <audio id="music" loop>
+    			<source id="musicSource" src="">
+			</audio>
 
             <button class="close-btn" onclick="closeLetter()">Close</button>
 
@@ -410,8 +412,13 @@ if(photo3) document.getElementById("photo3").src = photo3
 /* music */
 
 if(music){
+
 const audio = document.getElementById("music")
-audio.src = music
+const source = document.getElementById("musicSource")
+
+source.src = music
+audio.load()
+
 }
 
 /* seal click */
@@ -580,5 +587,6 @@ document.getElementById("seal").addEventListener("click", openLetter)
 
 
 </html>
+
 
 
