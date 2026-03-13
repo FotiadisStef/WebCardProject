@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Create Your Letter</title>
+<style>
+
+body{
+font-family: Arial;
+max-width:600px;
+margin:auto;
+padding:40px;
+}
+
+input,textarea{
+width:100%;
+margin-bottom:12px;
+padding:8px;
+}
+
+button{
+padding:10px 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Create Your Letter</h2>
+
+<input id="heading" placeholder="Heading">
+<input id="recipient" placeholder="Recipient">
+<input id="sender" placeholder="Sender">
+
+<textarea id="poem" placeholder="Write poem. Each line separated by |"></textarea>
+
+<input type="text" id="photo1" placeholder="Photo 1 URL">
+<input type="text" id="photo2" placeholder="Photo 2 URL">
+<input type="text" id="photo3" placeholder="Photo 3 URL">
+
+<input type="text" id="music" placeholder="Music URL">
+
+<button onclick="generate()">Generate Letter</button>
+
+<p id="link"></p>
+
+<script>
+
+function generate(){
+
+const heading = encodeURIComponent(document.getElementById("heading").value)
+const recipient = encodeURIComponent(document.getElementById("recipient").value)
+const sender = encodeURIComponent(document.getElementById("sender").value)
+const poem = encodeURIComponent(document.getElementById("poem").value)
+
+const photo1 = encodeURIComponent(document.getElementById("photo1").value)
+const photo2 = encodeURIComponent(document.getElementById("photo2").value)
+const photo3 = encodeURIComponent(document.getElementById("photo3").value)
+
+const music = encodeURIComponent(document.getElementById("music").value)
+
+const url =
+`index.html?heading=${heading}&recipient=${recipient}&sender=${sender}&poem=${poem}&photo1=${photo1}&photo2=${photo2}&photo3=${photo3}&music=${music}`
+
+document.getElementById("link").innerHTML =
+`<a href="${url}" target="_blank">${url}</a>`
+
+}
+
+</script>
+
+</body>
+</html>
