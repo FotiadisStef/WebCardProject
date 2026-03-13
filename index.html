@@ -343,14 +343,14 @@
             <div class="poem" id="poem"></div>
 
             <div class="gallery">
-    			<img id="photo1" src="" onclick="openImg(this)">
-				<img id="photo2" src="" onclick="openImg(this)">
-				<img id="photo3" src="" onclick="openImg(this)">
-			</div>
+                <img id="photo1" src="" onclick="openImg(this)">
+                <img id="photo2" src="" onclick="openImg(this)">
+                <img id="photo3" src="" onclick="openImg(this)">
+            </div>
 
             <audio id="music" loop>
-    			<source id="musicSource" src="">
-			</audio>
+                <source id="musicSource" src="">
+            </audio>
 
             <button class="close-btn" onclick="closeLetter()">Close</button>
 
@@ -371,62 +371,100 @@
         let lineIndex = 0;   // which line we are typing
         let charIndex = 0;   // which character in the line
 
-	window.onload = loadTemplate
-		
-	function loadTemplate(){
+        window.onload = loadTemplate
 
-const params = new URLSearchParams(window.location.search)
+        function loadTemplate() {
 
-const heading = params.get("heading") || "A Letter For You"
-const recipient = params.get("recipient") || ""
-const sender = params.get("sender") || ""
-const poem = params.get("poem") || ""
-const music = params.get("music") || ""
+            const params = new URLSearchParams(window.location.search)
 
-const photo1 = params.get("photo1")
-const photo2 = params.get("photo2")
-const photo3 = params.get("photo3")
+            const heading = params.get("heading") || "A Letter For You"
+            const recipient = params.get("recipient") || ""
+            const sender = params.get("sender") || ""
+            const poem = params.get("poem") || ""
+            const music = params.get("music") || ""
 
-/* heading */
+            const photo1 = params.get("photo1")
+            const photo2 = params.get("photo2")
+            const photo3 = params.get("photo3")
 
-document.getElementById("heading").innerText = heading + (recipient ? " " + recipient : "")
+            /* heading */
 
-/* seal letter */
+            document.getElementById("heading").innerText = heading + (recipient ? " " + recipient : "")
 
-if(sender){
-document.getElementById("seal").innerText = sender[0].toUpperCase()
-}
+            /* seal letter */
 
-/* poem */
+            if (sender) {
+                document.getElementById("seal").innerText = sender[0].toUpperCase()
+            }
 
-if(poem){
-poemLines = poem.split("|")
-}
+            /* poem */
 
-/* photos */
+            if (poem) {
+                poemLines = poem.split("|")
+            }
 
-if(photo1) document.getElementById("photo1").src = photo1
-if(photo2) document.getElementById("photo2").src = photo2
-if(photo3) document.getElementById("photo3").src = photo3
+            /* photos */
 
-/* music */
+            if (photo1) {
+                loadImage(document.getElementById("photo1"), photo1)
+            }
 
-if(music){
+            if (photo2) {
+                loadImage(document.getElementById("photo2"), photo2)
+            }
 
-const audio = document.getElementById("music")
-const source = document.getElementById("musicSource")
+            if (photo3) {
+                loadImage(document.getElementById("photo3"), photo3)
+            }
 
-source.src = music
-audio.load()
+            /* music */
 
-}
+            if (music) {
 
-/* seal click */
+                const audio = document.getElementById("music")
+                const source = document.getElementById("musicSource")
 
-document.getElementById("seal").addEventListener("click", openLetter)
+                source.src = music
+                audio.load()
 
-}
-		
+            }
+
+            /* seal click */
+
+            document.getElementById("seal").addEventListener("click", openLetter)
+
+        }
+
+        function loadImage(imgElement, baseName) {
+
+            const formats = ["jpg", "jpeg", "png"]
+            let index = 0
+
+            function tryNext() {
+
+                if (index >= formats.length) return
+
+                const testSrc = baseName + "." + formats[index]
+                const test = new Image()
+
+                test.onload = () => {
+                    imgElement.src = testSrc
+                    imgElement.style.display = "block"
+                }
+
+                test.onerror = () => {
+                    index++
+                    tryNext()
+                }
+
+                test.src = testSrc
+
+            }
+
+            tryNext()
+
+        }
+
         function typeWriter() {
             if (lineIndex < poemLines.length) {
                 const line = poemLines[lineIndex];
@@ -587,6 +625,3 @@ document.getElementById("seal").addEventListener("click", openLetter)
 
 
 </html>
-
-
-
