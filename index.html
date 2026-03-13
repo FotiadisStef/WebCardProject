@@ -285,6 +285,10 @@
             transition: .3s;
         }
 
+        .gallery img{
+            display:none;
+        }
+
         .gallery img:hover {
             transform: scale(1.07);
         }
@@ -406,15 +410,21 @@
             /* photos */
 
             if (photo1) {
-                loadImage(document.getElementById("photo1"), photo1)
+                const img = document.getElementById("photo1")
+                img.src = photo1
+                img.style.display = "block"
             }
 
             if (photo2) {
-                loadImage(document.getElementById("photo2"), photo2)
+                const img = document.getElementById("photo2")
+                img.src = photo2
+                img.style.display = "block"
             }
 
             if (photo3) {
-                loadImage(document.getElementById("photo3"), photo3)
+                const img = document.getElementById("photo3")
+                img.src = photo3
+                img.style.display = "block"
             }
 
             /* music */
