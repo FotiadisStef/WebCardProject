@@ -465,6 +465,21 @@
 
         }
 
+        function setPhoto(id, src){
+
+            if(!src) return
+
+            const img = document.getElementById(id)
+
+            img.src = src
+            img.style.display = "block"
+
+            img.onerror = () => {
+            console.log("Failed loading:", src)
+            }
+
+        }        
+            
         function typeWriter() {
             if (lineIndex < poemLines.length) {
                 const line = poemLines[lineIndex];
